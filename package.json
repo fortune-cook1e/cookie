@@ -1,0 +1,34 @@
+{
+  "name": "cookie",
+  "version": "1.0.0",
+  "description": "cookie's tools~",
+  "private": true,
+  "author": "fortune cookie <767077147@qq.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@types/node": "^14.14.41",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "husky": "4.3.8",
+    "lerna": "^4.0.0",
+    "lint-staged": "^10.5.4",
+    "typescript": "^4.2.4"
+  }
+}
