@@ -8,6 +8,6 @@ const wantedNodeVersion = packageJson.engines.node
 
 getCurrentNodeVersion(wantedNodeVersion)
 
-const cookieCli = new CookieCli('', '', '')
+const cookieCli = new CookieCli()
 cookieCli.run()
 

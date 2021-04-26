@@ -1,18 +1,28 @@
-import { basicQuestions, appTypeQuestions } from './questions'
-import { HAS_MORE_QUESTIONS_APP_TYPES } from './constants'
+import {
+   basicQuestions,
+   reactTypeQuestions,
+   pluginTypeQuestions
+ } from './questions'
 import { getPackageInfo } from './utils'
+import { ResolveQuestions } from './types/cli'
+import { create } from './create/init'
 const inquirer = require('inquirer')
 const minimist = require('minimist')
 const chalk = require('chalk')
 
 export default class CookieCli {
-  appName:string
-  appType:string
-  appPath:string;
-  constructor(appName:string, appType:string, appPath:string) {
+  appName:string | undefined;
+  appType:string | undefined;
+  appPath:string | undefined;
+  template:string | undefined;
+  pluginType:string | undefined;
+
+  constructor(appName?:string, appType?:string, appPath?:string, template?:string, pluginType?:string) {
     this.appName = appName
     this.appType = appType
     this.appPath = appPath || process.cwd()
+    this.template = template
+    this.pluginType = pluginType
   }
 
   run():void {
@@ -64,12 +74,31 @@ export default class CookieCli {
   }
 
   async getAnswers():Promise<void> {
-    const { appType = 'react-basic-app' } = await inquirer.prompt(basicQuestions)
-    this.appType = appType
-    // 选择2个app类型才会让其输入项目名
-    if (HAS_MORE_QUESTIONS_APP_TYPES.includes(appType)) {
-      const appName = await inquirer.prompt(appTypeQuestions)
-      this.appName = appName
+    const appPath = this.appPath
+    const { appName = '', appType = '', template = '', pluginType = '' } = await this.resolveQuestions()
+    create({
+      appName,
+      appType,
+      appPath,
+      template,
+      pluginType
+    })
+  }
+
+  async resolveQuestions():Promise<ResolveQuestions> {
+    const { appType = 'react' } = await inquirer.prompt(basicQuestions)
+    const nextQuestionts = appType === 'react' ? reactTypeQuestions : pluginTypeQuestions
+    const { appName = '', template = '', pluginType = '' } = await inquirer.prompt(nextQuestionts)
+    // TODO:check null 函数
+    return {
+      appType,
+      appName,
+      template,
+      pluginType
     }
+  }
+
+   checkExist(appName, appPath):void {
+    return
   }
 }
