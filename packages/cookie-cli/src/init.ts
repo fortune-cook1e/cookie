@@ -1,12 +1,12 @@
 
-import { getCurrentNodeVersion } from './utils'
+import { checkCurrentNodeVersion } from './utils'
 import CookieCli from './cli'
 
 const packageJson = require('../package.json')
 
 const wantedNodeVersion = packageJson.engines.node
 
-getCurrentNodeVersion(wantedNodeVersion)
+checkCurrentNodeVersion(wantedNodeVersion)
 
 const cookieCli = new CookieCli()
 cookieCli.run()

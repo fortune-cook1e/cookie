@@ -1,3 +1,3 @@
 export interface AnyOptions {
-  [propname:string]:any
+  [propname:string]:any;
 }

@@ -6,7 +6,8 @@
   "author": "fortune cookie <767077147@qq.com>",
   "scripts": {
     "dev": "tsc -w",
-    "compiler": "rimraf dist && tsc"
+    "compiler": "rimraf dist && tsc",
+    "lint":"eslint src --ext .js,.ts --fix"
   },
   "homepage": "",
   "bin": {

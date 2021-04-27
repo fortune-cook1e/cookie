@@ -1,6 +1,5 @@
 module.exports = {
   rules: {
-
     'indent': 0,
     'quotes': [2, 'single'],    // 单双引号
     'no-unused-expressions': 0, // 禁止未使用过的表达式
