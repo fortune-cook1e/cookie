@@ -1,45 +1,15 @@
+export * from './app'
+export * from './plugin'
 
-export const basicQuestions = [
+// 创建类型
+export const createTypeQuestion = [
   {
     type: 'list',
-    name: 'appType',
-    message: 'Which project would you like to build',
+    name: 'createType',
+    message: 'What kind of project do you wanna create?',
     choices: [
-      'react',
+      'app',
       'plugin'
-    ]
-  }
-]
-
-export const reactTypeQuestions = [
-  {
-    type: 'input',
-    name: 'appName',
-    message: 'what is your app name'
-  },
-  {
-    type: 'list',
-    name: 'template',
-    message: 'Which template do you wanna create',
-    choices: [
-      'react-basic-app',
-      'react-integration-app'
-    ]
-  }
-]
-
-export const pluginTypeQuestions = [
-  {
-    type: 'list',
-    name: 'pluginType',
-    message: 'Which kind plugin type do you wanna create',
-    choices: [
-      'eslint-basic',
-      'eslint-react',
-      'eslint-typescript',
-      'eslint-typescript-react',
-      'eslint-vue',
-      'stylelint'
     ]
   }
 ]

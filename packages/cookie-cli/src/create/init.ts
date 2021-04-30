@@ -1,24 +1,21 @@
 import fetchTemplate from './fetchTemplate'
 
-type InitProps = {
+type CreateParams = {
   appName:string;
   appType:string;
+  appTemplate:string;
   appPath:string;
-  template:string;
   pluginType:string;
+  pluginTemplate:string;
 }
 
 export function create({
   appName = '',
   appType = '',
+  appTemplate = '',
   appPath = '',
-  template = '',
-  pluginType = ''
-}:InitProps):void {
-  console.log('create params', { appName, appType, appPath, template, pluginType })
-  switch (appType) {
-    case 'react': {
-      fetchTemplate(appName, appPath)
-    }
-  }
+  pluginType = '',
+  pluginTemplate = ''
+}:CreateParams):void {
+  console.log('create params', { appName, appType, appPath, appTemplate, pluginType, pluginTemplate })
 }

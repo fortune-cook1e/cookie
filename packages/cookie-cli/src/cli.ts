@@ -1,11 +1,9 @@
-import {
-   basicQuestions,
-   reactTypeQuestions,
-   pluginTypeQuestions
- } from './questions'
+
 import { getPackageInfo } from './utils'
 import { ResolveQuestions } from './types/cli'
 import { create } from './create/init'
+import { createTypeQuestion } from './questions'
+import { getAppTypeAnswers, getPluginTypeAnswers } from './getAnswers'
 const inquirer = require('inquirer')
 const minimist = require('minimist')
 const chalk = require('chalk')
@@ -43,7 +41,6 @@ export default class CookieCli {
       switch (command) {
         case 'init': {
           this.getAnswers()
-          break
         }
       }
     } else {
@@ -53,10 +50,6 @@ export default class CookieCli {
         console.log('Options:')
         console.log('  -v, --version       output the version number')
         console.log('  -h, --help          output usage information')
-        console.log()
-        console.log('Commands:')
-        console.log('  init [projectName]  Init a project with default templete')
-        console.log('  help [cmd]          display help for [cmd]')
       } else if (argvs.version) {
         const version = getPackageInfo().version
         console.log(chalk.blue(
@@ -74,31 +67,24 @@ export default class CookieCli {
   }
 
   async getAnswers():Promise<void> {
-    const appPath = this.appPath
-    const { appName = '', appType = '', template = '', pluginType = '' } = await this.resolveQuestions()
-    create({
-      appName,
-      appType,
-      appPath,
-      template,
-      pluginType
-    })
-  }
+    const appPath = process.cwd()
 
-  async resolveQuestions():Promise<ResolveQuestions> {
-    const { appType = 'react' } = await inquirer.prompt(basicQuestions)
-    const nextQuestionts = appType === 'react' ? reactTypeQuestions : pluginTypeQuestions
-    const { appName = '', template = '', pluginType = '' } = await inquirer.prompt(nextQuestionts)
-    // TODO:check null 函数
-    return {
-      appType,
-      appName,
-      template,
-      pluginType
-    }
-  }
-
-   checkExist(appName, appPath):void {
-    return
+    const { createType = '' } = await inquirer.prompt(createTypeQuestion)
+    const getAnswerfunc = createType === 'app' ? getAppTypeAnswers : getPluginTypeAnswers
+    const {
+      appName = '',
+      appType = '',
+      appTemplate = '',
+      pluginType = '',
+      pluginTemplate = ''
+     }  = await getAnswerfunc()
+     create({
+       appName,
+       appType,
+       appTemplate,
+       appPath,
+       pluginType,
+       pluginTemplate,
+     })
   }
 }
