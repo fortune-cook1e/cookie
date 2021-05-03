@@ -7,7 +7,7 @@
   "homepage": "https://github.com/fortune-cook1e/cookie#readme",
   "license": "ISC",
   "publishConfig": {
-    "registry": "https://registry.npm.taobao.org/"
+    "registry": "https://registry.npm.org/"
   },
   "repository": {
     "type": "git",
