@@ -9,23 +9,13 @@
     "compiler": "rimraf dist && tsc",
     "lint": "eslint src --ext .js,.ts --fix"
   },
-  "homepage": "",
   "bin": {
     "cookie": "bin/cookie.js"
   },
   "license": "ISC",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": [
-    "lib"
-  ],
-  "publishConfig": {
-    "registry": "https://registry.npm.org/"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/fortune-cook1e/cookie.git" 
+    "url": "git://github.com/fortune-cook1e/cookie.git"
   },
   "dependencies": {
     "chalk": "^4.1.1",

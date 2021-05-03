@@ -6,9 +6,6 @@
   "author": "fortune cookie <767077147@qq.com>",
   "homepage": "https://github.com/fortune-cook1e/cookie#readme",
   "license": "ISC",
-  "publishConfig": {
-    "registry": "https://registry.npm.org/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fortune-cook1e/cookie.git"
@@ -22,5 +19,6 @@
   "dependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.25.0"
-  }
+  },
+  "gitHead": "644a6cf3a1f46c018bafff74ac91195a6c437ce3"
 }
