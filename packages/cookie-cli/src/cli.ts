@@ -1,6 +1,5 @@
 
 import { getPackageInfo } from './utils'
-import { ResolveQuestions } from './types/cli'
 import { create } from './create/init'
 import { createTypeQuestion } from './questions'
 import { getAppTypeAnswers, getPluginTypeAnswers } from './getAnswers'
@@ -9,18 +8,22 @@ const minimist = require('minimist')
 const chalk = require('chalk')
 
 export default class CookieCli {
-  appName:string | undefined;
-  appType:string | undefined;
-  appPath:string | undefined;
-  template:string | undefined;
-  pluginType:string | undefined;
+  createType:string;      // 创建类型
+  appName:string;         // app名称
+  appType:string;         // app类型
+  createPath:string;      // 创建路径
+  appTemplate:string;     //  app模板
+  pluginType:string;      // 插件类型
+  pluginTemplate:string;  // 插件模板
 
-  constructor(appName?:string, appType?:string, appPath?:string, template?:string, pluginType?:string) {
+  constructor(createType = '', appName = '', appType = '', createPath = '', appTemplate = '', pluginType = '', pluginTemplate = '') {
+    this.createType = createType
     this.appName = appName
     this.appType = appType
-    this.appPath = appPath || process.cwd()
-    this.template = template
+    this.createPath = createPath || process.cwd()
+    this.appTemplate = appTemplate
     this.pluginType = pluginType
+    this.pluginTemplate = pluginTemplate
   }
 
   run():void {
@@ -67,8 +70,6 @@ export default class CookieCli {
   }
 
   async getAnswers():Promise<void> {
-    const appPath = process.cwd()
-
     const { createType = '' } = await inquirer.prompt(createTypeQuestion)
     const getAnswerfunc = createType === 'app' ? getAppTypeAnswers : getPluginTypeAnswers
     const {
@@ -78,11 +79,13 @@ export default class CookieCli {
       pluginType = '',
       pluginTemplate = ''
      }  = await getAnswerfunc()
+
      create({
+       createType,
        appName,
        appType,
        appTemplate,
-       appPath,
+       createPath: this.createPath,
        pluginType,
        pluginTemplate,
      })

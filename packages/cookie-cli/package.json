@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsc -w",
     "compiler": "rimraf dist && tsc",
-    "lint":"eslint src --ext .js,.ts --fix"
+    "lint": "eslint src --ext .js,.ts --fix"
   },
   "homepage": "",
   "bin": {
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.1",
+    "cross-spawn": "^7.0.3",
     "download-git-repo": "^3.0.2",
     "eslint": "^7.24.0",
     "fs-extra": "^9.1.0",

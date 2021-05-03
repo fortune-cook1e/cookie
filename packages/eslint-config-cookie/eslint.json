@@ -5,7 +5,8 @@
       "eslint": "^7.25.0"
     },
     "basic":{
-      
+      "babel-eslint": "^10.1.0",
+      "eslint": "^7.25.0"
     }
   }
 }

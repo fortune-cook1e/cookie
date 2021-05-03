@@ -1,3 +1,10 @@
+import {
+   REACT_BASIC_APP,
+   REACT_INTEGRATION_APP,
+   VUE3_BASIC_APP,
+   VUE3_INTEGRATION_APP
+   } from '../constants/index'
+
 // app类型以及项目名称
 export const appTypeQuestions = [
   {
@@ -20,8 +27,8 @@ export const reactAppTemplateQuestions = [
     name: 'appTemplate',
     message: 'What kind of react template do you want?',
     choices: [
-      'react-basic-app',
-      'react-integration-app'
+      REACT_BASIC_APP,
+      REACT_INTEGRATION_APP
     ]
   }
 ]
@@ -33,8 +40,8 @@ export const vueAppTemplateQuestions = [
     name: 'appTemplate',
     message: 'What kind of vue template do you want?',
     choices: [
-      'vue3-basic-app',
-      'vue-integration-app'
+      VUE3_BASIC_APP,
+      VUE3_INTEGRATION_APP
     ]
   }
 ]
