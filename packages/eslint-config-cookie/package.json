@@ -1,5 +1,5 @@
 {
-  "name": "@cookie/eslint-config-cookie",
+  "name": "eslint-config-cookie",
   "version": "1.0.2",
   "description": "cookies'eslint config",
   "main": "index.js",
@@ -19,6 +19,5 @@
   "dependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.25.0"
-  },
-  "gitHead": "644a6cf3a1f46c018bafff74ac91195a6c437ce3"
+  }
 }
