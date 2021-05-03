@@ -1,6 +1,6 @@
 {
   "name": "@cookie/cookie-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "fortune cookie's cli",
   "main": "./dist/index.js",
   "author": "fortune cookie <767077147@qq.com>",
