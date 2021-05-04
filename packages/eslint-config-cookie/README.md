@@ -1,4 +1,4 @@
-# `eslint-config-taro`
+# `eslint-config-cookie`
 
 > TODO: description
 
