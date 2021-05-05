@@ -4,8 +4,7 @@ const tsConfig = require('./typescript')
 module.exports = {
   ...reactConfig,
   extends: [
-    ...tsConfig.extends,
-    ...reactConfig.extends
+    ...new Set([...tsConfig.extends, ...reactConfig.extends])
   ],
   settings: {
     ...reactConfig.settings

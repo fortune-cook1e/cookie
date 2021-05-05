@@ -4,8 +4,6 @@ import { REACT_TEMPLATE_MAP, VUE3_TEMPLATE_MAP, APP_TEMPLATES } from '../constan
 import { createEslint } from './eslint'
 
 const chalk  = require('chalk')
-const path = require('path')
-const fs = require('fs-extra')
 
 const PLUGIN_CREATE_MAP = {
   'eslint': createEslint

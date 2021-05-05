@@ -128,13 +128,13 @@ const checkConfigFileExist = async(cwd:string):Promise<string> => {
     const file = existFileArray[0]
     if ((answer as any).toBeDeleted) {
       fs.removeSync(file.filePath)
-      eslintFilePath = path.join(cwd, '.eslintrc.json')
-      fs.ensureFileSync(eslintFilePath)
     } else {
       console.log(chalk.red('Failed to create file'))
       process.exit(1)
     }
   }
+  eslintFilePath = path.join(cwd, '.eslintrc.json')
+  fs.ensureFileSync(eslintFilePath)
 
   return eslintFilePath
 }
