@@ -1,8 +1,11 @@
 
 import fetchAppTemplate from './fetchTemplate'
 import { REACT_TEMPLATE_MAP, VUE3_TEMPLATE_MAP, APP_TEMPLATES } from '../constants/index'
+import { installPackages } from '../utils'
 
 const chalk  = require('chalk')
+const path = require('path')
+const fs = require('fs-extra')
 
 type CreateParams = {
   createType:string;
@@ -77,11 +80,39 @@ const createPlugin = ({ pluginType = '', pluginTemplate = '', createPath }) => {
  * @description 创建eslint
  * @date 2021-05-03 16:40:29
  */
-const createEslint = ({ pluginTemplate = '', createPath = '' }) => {
-  const eslintPackageName = '@cookie/eslint-config-cookie'
-  return new Promise((resolve, reject) => {
-    console.log({ pluginTemplate, createPath, eslintPackageName })
+const createEslint = async({ pluginTemplate = '', createPath = '' }) => {
+  const eslintPackageName = 'eslint-config-cookie'
+  await installPackages({
+    dependencies: [eslintPackageName],
+    isDev: true,
+    cwd: createPath
   })
+
+  const template = pluginTemplate.split('eslint-')[1]
+  // 这里一定要加入paths 否则require.resolve 是在当前js执行的目录查找
+  const packagePath = path.dirname(
+    require.resolve(eslintPackageName, { paths: [createPath] })
+  )
+
+  const appPackage = require(path.join(createPath, 'package.json'))
+  const templateJsonPath = path.join(packagePath, 'template.json')
+
+  const eslintFileName = (template === 'basic' ? 'index' : template) + '.js'
+  const eslintTemplateConfig = require(path.join(packagePath, eslintFileName))
+  const devDependencies = require(templateJsonPath).devDependencies
+  // 合并依赖
+  appPackage.devDependencies = {
+    ...appPackage.devDependencies,
+    ...devDependencies[template]
+  }
+  // const eslintTypeFiles = [
+  //   '.eslintrc.js',
+  //   '.eslintrc'
+  // ]
+  const createEslintPath = createPath + '/.eslintrc.js'
+  // fs.ensureFileSync(createEslintPath)
+  fs.writeFileSync('./data.json', JSON.stringify(eslintTemplateConfig, null, 2), 'utf-8')
+  // TODO: 如何创建一个js并且写入对象
 }
 
 const PLUGIN_CREATE_MAP = {

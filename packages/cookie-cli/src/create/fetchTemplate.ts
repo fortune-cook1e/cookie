@@ -3,10 +3,9 @@ import * as path from 'path'
 import * as ora from 'ora'
 import * as download from 'download-git-repo'
 import * as inquirer from 'inquirer'
+import { deleteExistFileQuestion } from '../questions/index'
 
 const chalk = require('chalk')
-
-import { deleteExistFileQuestion } from '../questions/index'
 
 export default async function fetchAppTemplate(appName:string, appPath:string, appTemplate:string):Promise<void> {
   const tempPath = path.join(appPath, appName)
