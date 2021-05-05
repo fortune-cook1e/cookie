@@ -28,7 +28,7 @@ export const getPackageInfo = ():AnyOptions => {
  * @date 2021-05-03 21:17:48
  */
 export const installPackages = async({ dependencies = [], isDev = true, cwd = '' }:{dependencies:string[], isDev:boolean, cwd:string}):Promise<void> => {
-  if (dependencies.length === 0) return
+  // if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
     console.log(chalk.red('Please install npm or yarn'))
@@ -56,14 +56,18 @@ export const installPackages = async({ dependencies = [], isDev = true, cwd = ''
     let args
     if (useYarn) {
       command = 'yarnpkg'
-      args = ['add', '--exact']
+      // 这里区分两种情况，1. 无依赖 只需要执行 yarn install 2.有依赖区分是开发还是生产
+      args = 'install'
+      dependencies.length > 0 && (args = ['add', '--exact'])
       isDev && args.push('--dev')
     } else {
       command = 'npm'
       args = ['install']
       isDev && args.push('--save-dev')
     }
-    [].push.apply(args, dependencies)
+
+    dependencies.length > 0 && [].push.apply(args, dependencies)
+
     const child = spawn.sync(command, args, { stdio: 'inherit', cwd })
     if (child.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`)

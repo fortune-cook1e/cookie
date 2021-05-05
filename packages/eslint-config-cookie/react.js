@@ -17,7 +17,7 @@ module.exports =  {
     ...baseConfig.settings
   },
   parserOptions: {
-    ecmaVersion: '2017',
+    ecmaVersion: 2017,
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
       jsx: true,
