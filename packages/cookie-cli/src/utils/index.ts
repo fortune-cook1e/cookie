@@ -27,7 +27,10 @@ export const getPackageInfo = ():AnyOptions => {
  * @param {cwd} 安装路径
  * @date 2021-05-03 21:17:48
  */
-export const installPackages = async({ dependencies = [], isDev = true, cwd = '' }:{dependencies:string[], isDev:boolean, cwd:string}):Promise<void> => {
+export const installPackages = async(
+  { dependencies = [], isDev = true, cwd = '', stdio = 'inherit' }:
+  { dependencies:string[], isDev:boolean, cwd:string, stdio?: 'inherit' | 'ignore' }
+  ):Promise<void> => {
   // if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
@@ -68,9 +71,9 @@ export const installPackages = async({ dependencies = [], isDev = true, cwd = ''
 
     dependencies.length > 0 && [].push.apply(args, dependencies)
 
-    const child = spawn.sync(command, args, { stdio: 'inherit', cwd })
+    const child = spawn.sync(command, args, { stdio, cwd })
     if (child.status !== 0) {
-      console.error(`\`${command} ${args.join(' ')}\` failed`)
+      console.log(chalk.red(`\`${command} ${args.join(' ')}\` failed`))
       reject()
     }
     resolve()
@@ -81,7 +84,10 @@ export const installPackages = async({ dependencies = [], isDev = true, cwd = ''
  * @description 删除包
  * @date 2021-05-04 11:07:36
  */
-export const removePackages = async({ dependencies = [], cwd = '' }:{dependencies:string[], cwd:string}):Promise<void> => {
+export const removePackages = async(
+  { dependencies = [], cwd = '', stdio = 'inherit' }:
+  { dependencies:string[], cwd:string, stdio?: 'inherit' | 'ignore'  }
+  ):Promise<void> => {
   if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
@@ -99,7 +105,7 @@ export const removePackages = async({ dependencies = [], cwd = '' }:{dependencie
       args = ['uninstall']
     }
     [].push.apply(args, dependencies)
-    const child = spawn.sync(command, args, { stdio: 'inherit', cwd })
+    const child = spawn.sync(command, args, { stdio, cwd })
     if (child.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`)
       reject()

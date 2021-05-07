@@ -2,11 +2,13 @@
 import fetchAppTemplate from './fetchTemplate'
 import { REACT_TEMPLATE_MAP, VUE3_TEMPLATE_MAP, APP_TEMPLATES } from '../constants/index'
 import { createEslint } from './eslint'
+import { createStylelint } from './stylelint'
 
 const chalk  = require('chalk')
 
 const PLUGIN_CREATE_MAP = {
-  'eslint': createEslint
+  'eslint': createEslint,
+  'stylelint': createStylelint
 }
 
 type CreateParams = {
