@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-cookie",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "fortune cookie's stylelint config",
   "keywords": [
     "stylelint"
@@ -11,9 +11,6 @@
   "files": [
     "index.js"
   ],
-  "publishConfig": {
-    "registry": "https://registry.npm.taobao.org/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fortune-cook1e/cookie.git"
