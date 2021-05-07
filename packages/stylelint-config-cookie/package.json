@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-cookie",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "fortune cookie's stylelint config",
   "keywords": [
     "stylelint"
@@ -9,7 +9,8 @@
   "homepage": "https://github.com/fortune-cook1e/cookie#readme",
   "license": "ISC",
   "files": [
-    "index.js"
+    "index.js",
+    "template.json"
   ],
   "repository": {
     "type": "git",
