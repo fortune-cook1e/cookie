@@ -1,13 +1,14 @@
 {
   "devDependencies":{
     "basic":{
-      "babel-eslint": "^10.1.0",
+      "@babel/eslint-parser": "^7.13.14",
       "eslint": "^7.25.0"
     },
     "typescript":{
       "typescript": "^4.2.4",
       "@typescript-eslint/parser": "^4.22.0",
-      "@typescript-eslint/eslint-plugin": "^4.22.0"
+      "@typescript-eslint/eslint-plugin": "^4.22.0",
+      "eslint-config-alloy": "^3.10.0"
     },
     "react":{
       "eslint-plugin-react": "^7.15.0",
