@@ -5,7 +5,6 @@ const spawn = require('cross-spawn')
 const path = require('path')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
-const inquirer = require('inquirer')
 
 export const checkCurrentNodeVersion = (wanted:string):void => {
   if (!semver.satisfies(process.version, wanted)) {
@@ -31,7 +30,7 @@ export const installPackages = async(
   { dependencies = [], isDev = true, cwd = '', stdio = 'inherit' }:
   { dependencies:string[], isDev:boolean, cwd:string, stdio?: 'inherit' | 'ignore' }
   ):Promise<void> => {
-  // if (dependencies.length === 0) return
+  if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
     console.log(chalk.red('Please install npm or yarn'))
@@ -41,20 +40,11 @@ export const installPackages = async(
   // 检测是否存在package.json 文件
   const packagePath = path.join(cwd, 'package.json')
   if (!fs.existsSync(packagePath)) {
-    const { createFile = false } = await inquirer.prompt({
-      type: 'confirm',
-      name: 'createFile',
-      message: 'There\' is no package.json file, do u wanna create one?',
-      default: true
-    })
-    if (createFile) {
-      await packageInit(cwd)
-    } else {
-      process.exit(1)
-    }
+    console.log(chalk.yellow('creating package.json file..'))
+    await packageInit(cwd)
   }
 
-  return new Promise((resolve, reject) => {
+  try {
     let command
     let args
     if (useYarn) {
@@ -70,14 +60,14 @@ export const installPackages = async(
     }
 
     dependencies.length > 0 && [].push.apply(args, dependencies)
-
     const child = spawn.sync(command, args, { stdio, cwd })
     if (child.status !== 0) {
       console.log(chalk.red(`\`${command} ${args.join(' ')}\` failed`))
-      reject()
     }
-    resolve()
-  })
+  } catch (e) {
+    console.log(chalk.yellow(e.message || '安装依赖失败'))
+    process.exit(1)
+  }
 }
 
 /**
@@ -86,7 +76,7 @@ export const installPackages = async(
  */
 export const removePackages = async(
   { dependencies = [], cwd = '', stdio = 'inherit' }:
-  { dependencies:string[], cwd:string, stdio?: 'inherit' | 'ignore'  }
+  { dependencies:string[], cwd:string, stdio?: 'inherit' | 'ignore' }
   ):Promise<void> => {
   if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
@@ -94,7 +84,8 @@ export const removePackages = async(
     console.log(chalk.red('Please install npm or yarn'))
     process.exit(1)
   }
-  return new Promise((resolve, reject) => {
+
+  try {
     let command
     let args
     if (useYarn) {
@@ -108,10 +99,10 @@ export const removePackages = async(
     const child = spawn.sync(command, args, { stdio, cwd })
     if (child.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`)
-      reject()
     }
-    resolve()
-  })
+  } catch (e) {
+    console.log()
+  }
 }
 
 export const canUseYarn = ():Promise<boolean> => {
@@ -157,22 +148,26 @@ export const checkNpmAndyarn = async():Promise<{useYarn:boolean;useNpm:boolean}>
  * @date 2021-05-04 22:10:27
  */
 export const packageInit = async(cwd = ''):Promise<boolean> => {
-  const { useYarn = false, useNpm = false } = await checkNpmAndyarn()
-  let command
-  const args = ['init', '--yes']
-  if (!useYarn && !useNpm) {
-    console.log(chalk.red('Please install yarn or npm!'))
-    process.exit(1)
-  } else if (useYarn) {
-    command = 'yarnpkg'
-  } else {
-    command = 'npm'
+  try {
+    const { useYarn = false, useNpm = false } = await checkNpmAndyarn()
+    let command
+    const args = ['init', '--yes']
+    if (!useYarn && !useNpm) {
+      console.log(chalk.red('Please install yarn or npm!'))
+      process.exit(1)
+    } else if (useYarn) {
+      command = 'yarnpkg'
+    } else {
+      command = 'npm'
+    }
+    const child = spawn.sync(command, args, { stdio: 'ignore', cwd })
+    if (child.status !== 0) {
+      console.error(`\`${command} ${args.join(' ')}\` failed`)
+      return true
+    }
+    return false
+  } catch (e) {
+    return false
   }
-  const child = spawn.sync(command, args, { stdio: 'inherit', cwd })
-  if (child.status !== 0) {
-    console.error(`\`${command} ${args.join(' ')}\` failed`)
-    return true
-  }
-  return false
 }
 
