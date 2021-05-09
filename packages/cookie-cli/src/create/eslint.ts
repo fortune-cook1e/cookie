@@ -13,75 +13,67 @@ export const createEslint = async(
   {pluginTemplate:string, createPath:string}
   ):Promise<void> => {
   const eslintPackageName = 'eslint-config-cookie'
-
-  // const spinner = ora('Installing eslint-config-cookie package...').start()
-  // spinner.color = 'yellow'
+  const spinner = ora(`创建${chalk.blue.bold('eslint')}配置文件中...`).start()
+  spinner.discardStdin = false
 
   try {
     await installPackages({
       dependencies: [eslintPackageName],
       isDev: true,
-      cwd: createPath
+      cwd: createPath,
+      stdio: 'ignore'
     })
+    const template = pluginTemplate.split('eslint-')[1]
+    // 这里一定要加入paths 否则require.resolve 是在当前js执行的目录查找
+
+    const packagePath = path.dirname(
+      require.resolve(eslintPackageName, { paths: [createPath] })
+    )
+
+    const appPackage = require(path.join(createPath, 'package.json'))
+    const templateJsonPath = path.join(packagePath, 'template.json')
+
+    const eslintFileName = (template === 'basic' ? 'index' : template) + '.js'
+    const eslintTemplateConfig = require(path.join(packagePath, eslintFileName))
+    const devDependencies = require(templateJsonPath).devDependencies
+
+    // 合并依赖
+    // TODO: 需要进行依赖去重
+    appPackage.devDependencies = {
+      ...appPackage.devDependencies,
+      ...devDependencies[template],
+      ...devDependencies['basic']
+    }
+    fs.writeFileSync(
+      path.join(createPath, 'package.json'),
+      JSON.stringify(appPackage, null, 2) + os.EOL
+    )
+
+    const eslintFilePath = await checkConfigFileExist(createPath)
+
+    if (!eslintFilePath) return
+    // 将eslint配置写入文件中
+    fs.writeFileSync(eslintFilePath, 'module.exports = ' + JSON.stringify(eslintTemplateConfig, null, 2), 'utf-8')
+
+    await removePackages({
+      dependencies: [eslintPackageName],
+      cwd: createPath,
+      stdio: 'ignore'
+    })
+
+    await installPackages({
+      dependencies: [],
+      isDev: false,
+      cwd: createPath,
+      stdio: 'ignore'
+    })
+    spinner.succeed(`创建文件${chalk.blue.bold('.eslintrc.js')}文件成功!`)
+    process.exit(1)
   } catch (e) {
-    // spinner.color = 'red'
-    // spinner.fail('installing fail!')
+    spinner.fail(e.message || '创建文件失败')
     process.exit(1)
   }
 
-  const template = pluginTemplate.split('eslint-')[1]
-  // 这里一定要加入paths 否则require.resolve 是在当前js执行的目录查找
-
-  const packagePath = path.dirname(
-    require.resolve(eslintPackageName, { paths: [createPath] })
-  )
-
-  const appPackage = require(path.join(createPath, 'package.json'))
-  const templateJsonPath = path.join(packagePath, 'template.json')
-
-  const eslintFileName = (template === 'basic' ? 'index' : template) + '.js'
-  const eslintTemplateConfig = require(path.join(packagePath, eslintFileName))
-  const devDependencies = require(templateJsonPath).devDependencies
-  // 合并依赖
-  // TODO: 需要进行依赖去重
-  appPackage.devDependencies = {
-    ...appPackage.devDependencies,
-    ...devDependencies[template],
-    ...devDependencies['basic']
-  }
-
-  fs.writeFileSync(
-    path.join(createPath, 'package.json'),
-    JSON.stringify(appPackage, null, 2) + os.EOL
-  )
-
-  const eslintFilePath = await checkConfigFileExist(createPath)
-  // spinner.text = 'creating a eslint config file...'
-
-  console.log(chalk.cyan('creating a eslint config file...'))
-  console.log()
-
-  if (!eslintFilePath) return
-  // 将eslint配置写入文件中
-  fs.writeFileSync(eslintFilePath, JSON.stringify(eslintTemplateConfig, null, 2), 'utf-8')
-
-  // spinner.text = `removing ${eslintPackageName}...`
-  console.log(chalk.cyan(`removing ${eslintPackageName}...`))
-  console.log()
-  await removePackages({
-    dependencies: [eslintPackageName],
-    cwd: createPath
-  })
-  // spinner.text = 'installing eslint dependencies...'
-  console.log(chalk.cyan('installing eslint dependencies...'))
-  console.log()
-
-  await installPackages({
-    dependencies: [],
-    isDev: false,
-    cwd: createPath
-  })
-  console.log(chalk.blue('File created successfully'))
  //  spinner.succeed('File created successfully')
 }
 
@@ -133,7 +125,7 @@ const checkConfigFileExist = async(cwd:string):Promise<string> => {
       process.exit(1)
     }
   }
-  eslintFilePath = path.join(cwd, '.eslintrc.json')
+  eslintFilePath = path.join(cwd, '.eslintrc.js')
   fs.ensureFileSync(eslintFilePath)
 
   return eslintFilePath
