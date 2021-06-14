@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-cookie",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "cookies'eslint config",
   "main": "index.js",
   "author": "fortune cookie <767077147@qq.com>",
