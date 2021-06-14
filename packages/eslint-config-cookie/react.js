@@ -1,34 +1,25 @@
 const baseConfig = require('./index')
 
-module.exports =  {
+module.exports = {
   ...baseConfig,
-  extends: [
-    ...baseConfig.extends,
-    'eslint-config-alloy/react',
-    'plugin:react/recommended',
-  ],
-  plugins: ['react', 'react-hooks'],
+  extends: [...baseConfig.extends, 'plugin:react/recommended'],
+  plugins: ['react', 'react-hooks', ...baseConfig.plugins],
   settings: {
-    'react': {
-      'createClass': 'createReactClass', // Regex for Component Factory to use,
-      'pragma': 'React',  // Pragma to use, default to "React"
-      'version': 'detect', // React version. "detect" automatically picks the version you have installed.
-    },
-    ...baseConfig.settings
+    ...baseConfig.settings,
+    react: {
+      pragma: 'React',
+      version: 'detect'
+    }
   },
   parserOptions: {
-    ecmaVersion: 2017,
-    ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-      jsx: true,
-    },
-    sourceType: 'module',
+    ecmaVersion: 2018,
+    sourceType: 'module'
   },
   rules: {
-    'react/self-closing-comp': 1, // 自闭合
-    'react/jsx-indent': [2, 2],
+    'react/self-closing-comp': 2, // 自闭合
+    // 'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': [2, 2],
-    'react/jsx-max-props-per-line': [2, { 'maximum': 3 }],
+    'react/jsx-max-props-per-line': [2, { maximum: 3 }],
     'react/jsx-boolean-value': [2, 'never'],
     'react/jsx-closing-bracket-location': 2,
     'react/jsx-closing-tag-location': 2,
@@ -41,7 +32,8 @@ module.exports =  {
     'react/prop-types': 0,
     'react/display-name': 0,
     'react-hooks/rules-of-hooks': 2, // 检查 Hook 的规则
-    'react-hooks/exhaustive-deps': 1,  // 检查 effect 的依赖
+    'react-hooks/exhaustive-deps': 1, // 检查 effect 的依赖
+
     ...baseConfig.rules
   }
 }

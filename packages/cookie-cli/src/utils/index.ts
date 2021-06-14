@@ -6,16 +6,22 @@ const path = require('path')
 const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 
-export const checkCurrentNodeVersion = (wanted:string):void => {
+export const checkCurrentNodeVersion = (wanted: string): void => {
   if (!semver.satisfies(process.version, wanted)) {
-    console.log(chalk.red(
-      'Your current Node version is ' + process.version + ', but the cli need' + wanted + 'version.'
-    ))
+    console.log(
+      chalk.red(
+        'Your current Node version is ' +
+          process.version +
+          ', but the cli need' +
+          wanted +
+          'version.'
+      )
+    )
     process.exit(1)
   }
 }
 
-export const getPackageInfo = ():AnyOptions => {
+export const getPackageInfo = (): AnyOptions => {
   return require('../../package.json')
 }
 
@@ -26,10 +32,17 @@ export const getPackageInfo = ():AnyOptions => {
  * @param {cwd} 安装路径
  * @date 2021-05-03 21:17:48
  */
-export const installPackages = async(
-  { dependencies = [], isDev = true, cwd = '', stdio = 'inherit' }:
-  { dependencies:string[], isDev:boolean, cwd:string, stdio?: 'inherit' | 'ignore' }
-  ):Promise<void> => {
+export const installPackages = async ({
+  dependencies = [],
+  isDev = true,
+  cwd = '',
+  stdio = 'inherit'
+}: {
+  dependencies: string[]
+  isDev: boolean
+  cwd: string
+  stdio?: 'inherit' | 'ignore'
+}): Promise<void> => {
   if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
@@ -74,10 +87,15 @@ export const installPackages = async(
  * @description 删除包
  * @date 2021-05-04 11:07:36
  */
-export const removePackages = async(
-  { dependencies = [], cwd = '', stdio = 'inherit' }:
-  { dependencies:string[], cwd:string, stdio?: 'inherit' | 'ignore' }
-  ):Promise<void> => {
+export const removePackages = async ({
+  dependencies = [],
+  cwd = '',
+  stdio = 'inherit'
+}: {
+  dependencies: string[]
+  cwd: string
+  stdio?: 'inherit' | 'ignore'
+}): Promise<void> => {
   if (dependencies.length === 0) return
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   if (!useYarn && !useNpm) {
@@ -95,7 +113,7 @@ export const removePackages = async(
       command = 'npm'
       args = ['uninstall']
     }
-    [].push.apply(args, dependencies)
+    ;[].push.apply(args, dependencies)
     const child = spawn.sync(command, args, { stdio, cwd })
     if (child.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`)
@@ -105,7 +123,7 @@ export const removePackages = async(
   }
 }
 
-export const canUseYarn = ():Promise<boolean> => {
+export const canUseYarn = (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     try {
       execSync('yarnpkg --version', { stdio: 'ignore' })
@@ -116,7 +134,7 @@ export const canUseYarn = ():Promise<boolean> => {
   })
 }
 
-export const canUseNpm = ():Promise<boolean> => {
+export const canUseNpm = (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     try {
       execSync('npm --version', { stdio: 'ignore' })
@@ -134,7 +152,7 @@ export const canUseNpm = ():Promise<boolean> => {
  * @see
  * @return {*}
  */
-export const checkNpmAndyarn = async():Promise<{useYarn:boolean;useNpm:boolean}> => {
+export const checkNpmAndyarn = async (): Promise<{ useYarn: boolean; useNpm: boolean }> => {
   const [useYarn, useNpm] = await Promise.all([canUseYarn(), canUseNpm()])
   return {
     useYarn,
@@ -147,7 +165,7 @@ export const checkNpmAndyarn = async():Promise<{useYarn:boolean;useNpm:boolean}>
  * @param {cwd} 执行路径
  * @date 2021-05-04 22:10:27
  */
-export const packageInit = async(cwd = ''):Promise<boolean> => {
+export const packageInit = async (cwd = ''): Promise<boolean> => {
   try {
     const { useYarn = false, useNpm = false } = await checkNpmAndyarn()
     let command
@@ -171,3 +189,16 @@ export const packageInit = async(cwd = ''):Promise<boolean> => {
   }
 }
 
+/**
+ * @description 检查文件是否存在
+ * @param {string} files
+ * @param {string} cwd
+ * @date 2021-06-14 16:47:04
+ */
+export const checkFileIfExists = (files: string[], cwd: string): boolean => {
+  if (!files.length) return false
+  return files.some((file: string) => {
+    const filePath = path.resolve(cwd, file)
+    return fs.pathExistsSync(filePath)
+  })
+}

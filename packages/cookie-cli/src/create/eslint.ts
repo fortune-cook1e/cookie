@@ -1,5 +1,6 @@
 import { installPackages, removePackages } from '../utils'
 import { deleteExistFileQuestion } from '../questions'
+import { createPrettier } from './prettier'
 
 const path = require('path')
 const fs = require('fs-extra')
@@ -8,10 +9,13 @@ const chalk = require('chalk')
 const inquirer = require('inquirer')
 const os = require('os')
 
-export const createEslint = async(
-  { pluginTemplate = '', createPath = '' }:
-  {pluginTemplate:string, createPath:string}
-  ):Promise<void> => {
+export const createEslint = async ({
+  pluginTemplate = '',
+  createPath = ''
+}: {
+  pluginTemplate: string
+  createPath: string
+}): Promise<void> => {
   const eslintPackageName = 'eslint-config-cookie'
   const spinner = ora(`创建${chalk.blue.bold('eslint')}配置文件中...`).start()
   spinner.discardStdin = false
@@ -37,6 +41,8 @@ export const createEslint = async(
     const eslintTemplateConfig = require(path.join(packagePath, eslintFileName))
     const devDependencies = require(templateJsonPath).devDependencies
 
+    console.log(devDependencies['basic'])
+
     // 合并依赖
     // TODO: 需要进行依赖去重
     appPackage.devDependencies = {
@@ -53,7 +59,13 @@ export const createEslint = async(
 
     if (!eslintFilePath) return
     // 将eslint配置写入文件中
-    fs.writeFileSync(eslintFilePath, 'module.exports = ' + JSON.stringify(eslintTemplateConfig, null, 2), 'utf-8')
+    fs.writeFileSync(
+      eslintFilePath,
+      'module.exports = ' + JSON.stringify(eslintTemplateConfig, null, 2),
+      'utf-8'
+    )
+
+    await createPrettier(createPath)
 
     await removePackages({
       dependencies: [eslintPackageName],
@@ -74,7 +86,7 @@ export const createEslint = async(
     process.exit(1)
   }
 
- //  spinner.succeed('File created successfully')
+  //  spinner.succeed('File created successfully')
 }
 
 /**
@@ -83,7 +95,7 @@ export const createEslint = async(
  * @date 2021-05-05 11:00:30
  * @return {string} 创建的eslint文件路径
  */
-const checkConfigFileExist = async(cwd:string):Promise<string> => {
+const checkConfigFileExist = async (cwd: string): Promise<string> => {
   let eslintFilePath = ''
 
   const eslintTypeFiles = [
@@ -95,8 +107,8 @@ const checkConfigFileExist = async(cwd:string):Promise<string> => {
   ]
 
   // 存在的文件
-  const existFileArray:any = []
-  const inquirerPromise:any = []
+  const existFileArray: any = []
+  const inquirerPromise: any = []
 
   // 遍历查询是否已存在eslint文件
   for (const file of eslintTypeFiles) {
@@ -107,7 +119,7 @@ const checkConfigFileExist = async(cwd:string):Promise<string> => {
         fileName: file,
         filePath
       })
-      inquirerPromise.push((inquirer.prompt(deleteExistFileQuestion)))
+      inquirerPromise.push(inquirer.prompt(deleteExistFileQuestion))
       break
     }
   }
