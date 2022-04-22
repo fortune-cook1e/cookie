@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   // 解析器类型
   parser: '@typescript-eslint/parser',
   // 环境变量
