@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noImplicitAny": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "outDir": "dist/",
     "preserveConstEnums": true,
     "removeComments": false,

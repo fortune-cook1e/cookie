@@ -1,9 +1,12 @@
 import { AnyOptions } from '../types'
+import { deleteExistFileQuestion } from '../questions'
+import * as inquirer from 'inquirer'
+import * as fs from 'fs-extra'
+
 const semver = require('semver')
 const chalk = require('chalk')
 const spawn = require('cross-spawn')
 const path = require('path')
-const fs = require('fs-extra')
 const execSync = require('child_process').execSync
 
 export const checkCurrentNodeVersion = (wanted: string): void => {
@@ -202,3 +205,57 @@ export const checkFileIfExists = (files: string[], cwd: string): boolean => {
     return fs.pathExistsSync(filePath)
   })
 }
+
+/**
+ * @description 检查路径是否存在(文件夹)
+ * @param {string} filePath
+ * @param {*} canDelete 能否被删除
+ * @date 2022-04-23 14:36:01
+ * @return {Boolean}
+ */
+export const filePathExist = async (filePath: string, canDelete = false): Promise<boolean> => {
+  if (fs.existsSync(filePath)) {
+    if (canDelete) {
+      const { toBeDeleted } = await inquirer.prompt(deleteExistFileQuestion)
+      if (toBeDeleted) {
+        fs.removeSync(filePath)
+        console.log(chalk.blue(`The file path:${filePath} is deleted successfully`))
+        return false
+      } else {
+        console.log(chalk.red(`The file path:${filePath} already exists`))
+        return process.exit(1)
+      }
+    }
+    console.log(chalk.red(`The file path:${filePath} already exists`))
+    return process.exit(1)
+  } else {
+    return false
+  }
+}
+
+/**
+ * @description 复制文件夹
+ * @param {*} targetFiles 目标文件夹地址
+ * @param {*} souceFiles 需要复制的文件夹地址
+ * @date 2022-04-23 15:37:44
+ */
+export const copyFiles = async (targetFiles: string, souceFiles: string): Promise<void> => {
+  try {
+    await fs.copy(souceFiles, targetFiles)
+  } catch (e) {
+    console.log(e)
+    process.exit(1)
+  }
+}
+
+function tst(a: string, b: string) {
+  console.log(a, b)
+}
+
+tst('ds', 'dsad')
+
+function test({ a = '1', b = '2' }: { a: string; b: string }) {
+  console.log(a, b)
+}
+
+test({ a: '2' })

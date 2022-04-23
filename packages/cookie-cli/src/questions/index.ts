@@ -1,19 +1,28 @@
-export * from './app'
-export * from './plugin'
+import { APP_LIST, PLUGIN_LIST } from '../constants'
 
-// 创建类型
-export const createTypeQuestion = [
+import { QuestionItem } from 'src/types'
+
+// 创建应用题时
+export const createAppQuestions: QuestionItem[] = [
   {
     type: 'list',
-    name: 'createType',
-    message: 'What kind of project do you wanna create?',
-    choices: [
-      'app',
-      'plugin'
-    ]
+    name: 'app',
+    message: 'What kind of app do u want',
+    choices: APP_LIST.map(a => a.app)
   }
 ]
 
+// 创建插件提示
+export const createPluginQuestions: QuestionItem[] = [
+  {
+    type: 'list',
+    name: 'plugin',
+    message: 'What kind of plugin do u want',
+    choices: PLUGIN_LIST.map(p => p.plugin)
+  }
+]
+
+// 删除提示
 export const deleteExistFileQuestion = [
   {
     type: 'confirm',
