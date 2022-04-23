@@ -77,25 +77,4 @@ export default class CookieCli {
     await console.log()
   }
 
-  // async getAnswers(): Promise<void> {
-  //   const { createType = '' } = await inquirer.prompt(createTypeQuestion)
-  //   const getAnswerfunc = createType === 'app' ? getAppTypeAnswers : getPluginTypeAnswers
-  //   const {
-  //     appName = '',
-  //     appType = '',
-  //     appTemplate = '',
-  //     pluginType = '',
-  //     pluginTemplate = ''
-  //   } = await getAnswerfunc()
-
-  //   create({
-  //     createType,
-  //     appName,
-  //     appType,
-  //     appTemplate,
-  //     createPath: this.createPath,
-  //     pluginType,
-  //     pluginTemplate
-  //   })
-  // }
 }

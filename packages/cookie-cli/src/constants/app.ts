@@ -26,7 +26,7 @@ export const APP_LIST: AppItem[] = [
   },
   {
     title: 'react qiankun 微应用模版',
-    appPath: path.resolve(__dirname, '../../../react-micro-template/template'),
+    appPath: path.resolve(__dirname, '../../../react-micro-child-template'),
     app: REACT_QK_MICRO_APP,
     appType: 'react',
     source: 'packages'
