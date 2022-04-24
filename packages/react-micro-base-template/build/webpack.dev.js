@@ -5,7 +5,7 @@ const commonConfig = require('./webpack.common')
 
 const jstsRegex = /\.(js|jsx|ts|tsx)$/
 
-const PORT = 8088
+const PORT = 8080
 
 module.exports = merge(commonConfig, {
 	mode: 'development',
@@ -16,13 +16,7 @@ module.exports = merge(commonConfig, {
 		compress: true,
 		open: true,
 		hot: true,
-		port: PORT,
-		// for qiankun
-		liveReload: false,
-		// hot: false,
-		headers: {
-			'Access-Control-Allow-Origin': '*'
-		}
+		port: PORT
 	},
 
 	module: {

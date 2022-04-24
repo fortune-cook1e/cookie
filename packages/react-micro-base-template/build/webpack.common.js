@@ -6,7 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 const deps = require('../package.json').dependencies
-const packageName = require('../package.json').name
+
+const packageName = deps.name
 
 const jstsRegex = /\.(js|jsx|ts|tsx)$/
 const cssRegex = /\.css$/
@@ -46,11 +47,7 @@ const config = {
 		path: paths.build,
 		publicPath: isDev ? '/' : './',
 		filename: isDev ? 'js/[name].js' : 'js/[name].[contenthash].js',
-		chunkFilename: isDev ? 'js/[name].js' : 'js/[name].[contenthash].js',
-		library: `${packageName}`,
-		libraryTarget: 'umd',
-		chunkLoadingGlobal: `webpackJsonp_${packageName}`,
-		globalObject: 'window'
+		chunkFilename: isDev ? 'js/[name].js' : 'js/[name].[contenthash].js'
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
