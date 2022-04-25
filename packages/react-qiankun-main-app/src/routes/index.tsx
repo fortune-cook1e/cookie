@@ -1,6 +1,6 @@
 import React, { ComponentType, Suspense, lazy } from 'react'
 import { RouteObject, useRoutes } from 'react-router-dom'
-import { REACT_MICRO_CHILD_URL } from '@/micro'
+import { SUB_APP } from '@/micro'
 
 interface LazyComponentProps {
 	importFunc: any
@@ -25,7 +25,7 @@ const routes: RouteObject[] = [
 		element: () => import('@/pages/home')
 	},
 	{
-		path: `${REACT_MICRO_CHILD_URL}/*`,
+		path: `${SUB_APP.activeRule}/*`,
 		element: () => import('@/pages/micro')
 	}
 ]

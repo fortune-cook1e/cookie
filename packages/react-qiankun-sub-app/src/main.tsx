@@ -19,17 +19,17 @@ if (!window.__POWERED_BY_QIANKUN__) {
 console.log('micrp-app', window.__POWERED_BY_QIANKUN__)
 
 export async function bootstrap(): Promise<void> {
-	console.log('react child boostrap')
+	await console.log('react child boostrap')
 }
 
 export async function mount(props: any): Promise<void> {
-	console.log('react child mount', props)
+	await console.log('react child mount', props)
 	render(props)
 }
 
 export async function unmount(props: any): Promise<void> {
 	const { container } = props
-	console.log('react child unmoumt')
+	await console.log('react child unmoumt')
 	ReactDom.unmountComponentAtNode(
 		container ? container.querySelector('#root') : document.querySelector('#root')
 	)
