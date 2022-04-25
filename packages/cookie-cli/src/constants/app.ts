@@ -27,14 +27,14 @@ export const APP_LIST: AppItem[] = [
   },
   {
     title: 'react qiankun 基座应用模板',
-    appPath: path.resolve(__dirname, '../../../react-micro-base-template'),
+    appPath: path.resolve(__dirname, '../../../react-qiankun-main-app'),
     app: REACT_QK_BASE_APP,
     appType: 'react',
     source: 'packages'
   },
   {
     title: 'react qiankun 子应用模版',
-    appPath: path.resolve(__dirname, '../../../react-micro-child-template'),
+    appPath: path.resolve(__dirname, '../../../react-qiankunp-sub-app'),
     app: REACT_QK_CHILD_APP,
     appType: 'react',
     source: 'packages'
