@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-cookie",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "description": "fortune cookie's stylelint config",
   "keywords": [
