@@ -1,13 +1,11 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/cookie-cli"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "message":"chore: publish"
+      "message": "chore: publish"
     }
   }
 }

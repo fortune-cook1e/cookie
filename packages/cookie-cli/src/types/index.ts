@@ -24,5 +24,5 @@ export interface QuestionItem {
   type: 'input' | 'list'
   name: string
   message: string
-  choices: string[]
+  choices: string[] | { name: string; value: string }[]
 }

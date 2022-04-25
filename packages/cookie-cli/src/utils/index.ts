@@ -247,15 +247,3 @@ export const copyFiles = async (targetFiles: string, souceFiles: string): Promis
     process.exit(1)
   }
 }
-
-function tst(a: string, b: string) {
-  console.log(a, b)
-}
-
-tst('ds', 'dsad')
-
-function test({ a = '1', b = '2' }: { a: string; b: string }) {
-  console.log(a, b)
-}
-
-test({ a: '2' })

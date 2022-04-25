@@ -8,7 +8,7 @@ export const createAppQuestions: QuestionItem[] = [
     type: 'list',
     name: 'app',
     message: 'What kind of app do u want',
-    choices: APP_LIST.map(a => a.app)
+    choices: APP_LIST.map(a => ({ name: a.title, value: a.app }))
   }
 ]
 
@@ -18,7 +18,7 @@ export const createPluginQuestions: QuestionItem[] = [
     type: 'list',
     name: 'plugin',
     message: 'What kind of plugin do u want',
-    choices: PLUGIN_LIST.map(p => p.plugin)
+    choices: PLUGIN_LIST.map(p => ({ name: p.title, value: p.plugin }))
   }
 ]
 
