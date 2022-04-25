@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "react qiankun 子应用模板",
 	"author": "fortune_cookie",
+	"private": true,
 	"license": "MIT",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development webpack serve --config build/webpack.dev.js",
