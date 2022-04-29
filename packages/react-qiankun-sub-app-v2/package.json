@@ -1,6 +1,7 @@
 {
 	"name": "react-webpack-template",
 	"version": "1.0.0",
+	"private": true,
 	"repository": "https://github.com/fortune-cook1e/react-webpack-template.git",
 	"author": "fortune cookie <767077147@qq.com>",
 	"license": "MIT",
