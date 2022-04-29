@@ -4,8 +4,9 @@ import { AppItem } from '../types'
 // app
 export const REACT_BASIC_APP = 'react-basic-app' // react 基础应用
 export const REACT_INTEGRATION_APP = 'react-integration-app' // react 集合多种功能应用
-export const REACT_QK_CHILD_APP = 'react-qk-child-app' // react qiankun 子应用模板
-export const REACT_QK_BASE_APP = 'react-qk-base-app' // react qiankun 基座应用
+export const REACT_QK_SUB_APP = 'react-qk-sub-app' // react qiankun 子应用模板 (react-router-dom 采用v6)
+export const REACT_QK_MAIN_APP = 'react-qk-main-app' // react qiankun 基座应用
+export const REACT_QK_SUB_APP_V2 = 'react-qiankun-sub-app-v2' // react qiankun 子应用模板 v2 (react-router-dom 采用v5)
 
 export const VUE3_BASIC_APP = 'vue3-basic_app'
 export const VUE3_INTEGRATION_APP = 'vue3-integration-app'
@@ -21,14 +22,21 @@ export const APP_LIST: AppItem[] = [
   {
     title: 'react qiankun 基座应用模板',
     appPath: path.resolve(__dirname, '../../../react-qiankun-main-app'),
-    app: REACT_QK_BASE_APP,
+    app: REACT_QK_MAIN_APP,
     appType: 'react',
     source: 'packages'
   },
   {
     title: 'react qiankun 子应用模版',
-    appPath: path.resolve(__dirname, '../../../react-qiankunp-sub-app'),
-    app: REACT_QK_CHILD_APP,
+    appPath: path.resolve(__dirname, '../../../react-qiankun-sub-app'),
+    app: REACT_QK_SUB_APP,
+    appType: 'react',
+    source: 'packages'
+  },
+  {
+    title: 'react qiankun 子应用V2模版',
+    appPath: path.resolve(__dirname, '../../../react-qiankun-sub-app-v2'),
+    app: REACT_QK_SUB_APP_V2,
     appType: 'react',
     source: 'packages'
   }

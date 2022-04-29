@@ -2,3 +2,6 @@ dist
 lib
 node_modules
 *.d.ts
+packages/react-qiankun-main-app
+packages/react-qiankun-sub-app
+packages/react-qiankun-sub-app-v2
