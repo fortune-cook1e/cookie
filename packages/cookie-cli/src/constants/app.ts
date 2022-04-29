@@ -12,14 +12,7 @@ export const VUE3_INTEGRATION_APP = 'vue3-integration-app'
 
 export const APP_LIST: AppItem[] = [
   {
-    title: 'react基础应用',
-    appPath: 'github:fortune-cook1e/react-webpack-template#basic',
-    app: REACT_BASIC_APP,
-    appType: 'react',
-    source: 'repo'
-  },
-  {
-    title: 'react集成多功能应用',
+    title: 'react + ts + template 模板应用',
     appPath: 'github:fortune-cook1e/react-webpack-template',
     app: REACT_INTEGRATION_APP,
     appType: 'react',
@@ -38,19 +31,19 @@ export const APP_LIST: AppItem[] = [
     app: REACT_QK_CHILD_APP,
     appType: 'react',
     source: 'packages'
-  },
-  {
-    title: 'vue3 基础应用',
-    appPath: '',
-    app: VUE3_BASIC_APP,
-    appType: 'vue',
-    source: 'packages'
-  },
-  {
-    title: 'vue3集成多功能应用',
-    appPath: '',
-    app: VUE3_INTEGRATION_APP,
-    appType: 'vue',
-    source: 'packages'
   }
+  // {
+  //   title: 'vue3 基础应用',
+  //   appPath: '',
+  //   app: VUE3_BASIC_APP,
+  //   appType: 'vue',
+  //   source: 'packages'
+  // },
+  // {
+  //   title: 'vue3集成多功能应用',
+  //   appPath: '',
+  //   app: VUE3_INTEGRATION_APP,
+  //   appType: 'vue',
+  //   source: 'packages'
+  // }
 ]
