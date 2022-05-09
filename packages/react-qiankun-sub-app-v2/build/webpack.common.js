@@ -12,6 +12,8 @@ const cssRegex = /\.css$/
 const cssModuleRegex = /\.module\.css$/
 const lessRegex = /\.less$/
 const lessModuleRegex = /\.module\.less$/
+const imgRegex = /\.(png|jpe?g|gif|svg)$/
+
 const packageName = require('../package.json').name
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -132,6 +134,12 @@ const config = {
 					'postcss-loader',
 					{ loader: 'less-loader' }
 				]
+			},
+			{
+				test: imgRegex,
+				exclude: '/node_modules/',
+				type: 'assets/resource',
+				use: ['file-loader']
 			}
 		].filter(Boolean)
 	},
